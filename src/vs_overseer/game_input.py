@@ -180,6 +180,9 @@ def _text_has_menu_keywords(raw: str) -> bool:
         "unlocks",
         "bestiary",
         "armory",
+        "login",
+        "linked",
+        "account",
         "loading",
     )
     return any(token in normalized for token in tokens)
@@ -262,7 +265,8 @@ def _should_treat_unknown_as_in_run(
             return bool((not unknown_has_menu_keywords) and save_stall_fresh and save_recent)
         if unknown_has_menu_keywords:
             return False
-        return save_stall_fresh
+        # Keep movement active when OCR briefly degrades, unless menu markers appear.
+        return True
     if str(menu_ocr_error).strip() == "":
         return False
     if not save_recent:
@@ -499,7 +503,7 @@ class GameInputDaemon:
         self.menu_state_retry_interval_seconds = 1.0
         self.menu_state_sticky_seconds = 2.5
         self.unknown_menu_confirm_interval_seconds = 2.0
-        self.unknown_in_run_grace_seconds = 12.0
+        self.unknown_in_run_grace_seconds = 90.0
         self.tesseract_cmd = shutil.which("tesseract") or "/usr/local/bin/tesseract"
         self.min_save_data_age_seconds = max(0.0, float(cfg.game_input.min_save_data_age_seconds))
         self.nudge_cooldown_seconds = max(0.0, float(cfg.game_input.nudge_cooldown_seconds))
@@ -618,13 +622,18 @@ class GameInputDaemon:
         cmd = ["/usr/bin/osascript"]
         for line in lines:
             cmd.extend(["-e", line])
-        completed = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=2.0,
-            check=False,
-        )
+        try:
+            completed = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=2.0,
+                check=False,
+            )
+        except subprocess.TimeoutExpired:
+            return (None, "", "osascript_timeout")
+        except Exception as exc:  # noqa: BLE001
+            return (None, "", f"osascript_exception:{exc}")
         if completed.returncode != 0:
             stderr = str(completed.stderr).strip()
             stdout = str(completed.stdout).strip()
@@ -1750,6 +1759,7 @@ class GameInputDaemon:
         gameplay_error = ""
         gameplay_direction = ""
         gameplay_confirm_sent = False
+        unknown_run_candidate_reason = "classifier"
         unknown_run_candidate = bool(
             _should_treat_unknown_as_in_run(
                 menu_state=self._menu_state,
@@ -1761,6 +1771,35 @@ class GameInputDaemon:
                 save_stall_elapsed_seconds=save_stall_elapsed_seconds,
             )
         )
+        menu_recently_observed = bool(
+            self._last_known_menu_state in MENU_ACTIONABLE_STATES
+            and self._last_known_menu_state_mono > 0.0
+            and (now_mono - self._last_known_menu_state_mono) <= 20.0
+        )
+        if (
+            self._menu_state == "unknown"
+            and (not unknown_has_menu_keywords)
+            and (not unknown_run_candidate)
+            and (not menu_recently_observed)
+        ):
+            unknown_run_candidate = True
+            unknown_run_candidate_reason = "unknown_no_menu_keywords"
+        if (
+            self._menu_state == "unknown"
+            and (not unknown_has_menu_keywords)
+            and (not unknown_run_candidate)
+        ):
+            gameplay_recent = bool(
+                self._last_gameplay_mono > 0.0
+                and (now_mono - self._last_gameplay_mono) <= max(30.0, self.unknown_in_run_grace_seconds)
+            )
+            save_recent_for_gameplay = bool(
+                save_age is not None
+                and float(save_age) <= max(45.0, self.unknown_in_run_grace_seconds)
+            )
+            if gameplay_recent and save_recent_for_gameplay and (not menu_recently_observed):
+                unknown_run_candidate = True
+                unknown_run_candidate_reason = "persist_recent_gameplay"
         gameplay_allowed_state = (
             (not self.menu_detection_enabled)
             or (self._menu_state == "in_run")
@@ -1893,6 +1932,7 @@ class GameInputDaemon:
             "gameplay_sequence": list(self.gameplay_sequence),
             "gameplay_allowed_state": gameplay_allowed_state,
             "gameplay_unknown_run_candidate": unknown_run_candidate,
+            "gameplay_unknown_run_candidate_reason": unknown_run_candidate_reason,
             "gameplay_action": gameplay_action,
             "gameplay_direction": gameplay_direction,
             "last_gameplay_direction": self._last_gameplay_direction,
