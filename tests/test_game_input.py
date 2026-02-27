@@ -167,6 +167,7 @@ class GameInputTests(unittest.TestCase):
     def test_text_has_menu_keywords(self) -> None:
         self.assertTrue(_text_has_menu_keywords("Game Over  Quit  Revive"))
         self.assertTrue(_text_has_menu_keywords("Stage Selection"))
+        self.assertTrue(_text_has_menu_keywords("Already linked with account Login"))
         self.assertFalse(_text_has_menu_keywords("@ - (= Meat, WSS Tie pedi"))
 
     def test_region_capture_retryable_error(self) -> None:
@@ -219,7 +220,7 @@ class GameInputTests(unittest.TestCase):
                 save_stall_elapsed_seconds=10.0,
             )
         )
-        self.assertFalse(
+        self.assertTrue(
             _should_treat_unknown_as_in_run(
                 menu_state="unknown",
                 menu_ocr_ok=True,
