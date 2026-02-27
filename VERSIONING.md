@@ -11,5 +11,5 @@
 
 ## Automation
 - `scripts/release/semver_bump.py` computes the next version.
-- The release workflow updates `pyproject.toml`, creates the release commit, tags the commit, and publishes a GitHub release.
-- Release commits include `[skip ci] [skip release]` to prevent recursive workflow loops.
+- The release workflow creates and pushes a SemVer tag for the latest CI-validated `main` commit, then publishes a GitHub release.
+- `pyproject.toml` should be updated in normal code PRs when a source-level version bump is required.

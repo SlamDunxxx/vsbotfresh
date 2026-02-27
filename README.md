@@ -53,7 +53,7 @@ Release behavior:
 - Conventional commits drive version bumps.
 - `feat:` -> minor, breaking change -> major, everything else -> patch.
 - Tags are created as `vX.Y.Z`.
-- `pyproject.toml` version is updated in the release commit.
+- Release workflow tags the validated `main` commit after CI success.
 
 Local release dry run:
 ```bash

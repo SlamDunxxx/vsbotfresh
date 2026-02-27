@@ -28,18 +28,19 @@ jobs:
       - name: Compute Next Version
         id: semver
         run: |
-          python scripts/release/semver_bump.py --pyproject pyproject.toml --apply --github-output "$GITHUB_OUTPUT"
+          python scripts/release/semver_bump.py --pyproject pyproject.toml --github-output "$GITHUB_OUTPUT"
 
-      - name: Create Release Commit + Tag
+      - name: Create and Push Tag
         if: ${{ steps.semver.outputs.has_changes == 'true' }}
         run: |
           VERSION="${{ steps.semver.outputs.next_version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pyproject.toml
-          git commit -m "chore(release): v${VERSION} [skip ci] [skip release]"
-          git tag "v${VERSION}"
-          git push origin HEAD:main --follow-tags
+          TAG="v${VERSION}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag already exists: $TAG"
+            exit 0
+          fi
+          git tag "$TAG" "${{ github.event.workflow_run.head_sha }}"
+          git push origin "$TAG"
 
       - name: Publish GitHub Release
         if: ${{ steps.semver.outputs.has_changes == 'true' }}
