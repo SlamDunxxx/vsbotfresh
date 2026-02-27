@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: ${{ github.event_name != 'push' || !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    name: test (py${{ matrix.python-version }})
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile Sources
+        run: |
+          python -m compileall src tests scripts
+
+      - name: Run Unit + Replay E2E Tests
+        env:
+          PYTHONPATH: ./src
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py'

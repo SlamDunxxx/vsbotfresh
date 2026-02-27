@@ -1,0 +1,31 @@
+{
+  "totals": [
+    {
+      "key": "collection_target",
+      "default": 470,
+      "url": "https://vampire.survivors.wiki/w/Collection",
+      "patterns": [
+        "total number of items.{0,300}?([0-9]{2,4})\\s*items",
+        "total number of items[^<]{0,120}<b>([0-9]{2,4})\\s*items",
+        "to be collected[^<]{0,120}<b>([0-9]{2,4})\\s*items"
+      ]
+    },
+    {
+      "key": "bestiary_target",
+      "default": 360,
+      "url": "https://vampire.survivors.wiki/w/Calculators/BestiaryLocator",
+      "patterns": [
+        "bnum\\|Bestiary number\\|1\\|int\\|1-([0-9]{2,4})"
+      ]
+    },
+    {
+      "key": "steam_achievements_target",
+      "default": 243,
+      "url": "https://vampire.survivors.wiki/w/Achievements",
+      "patterns": [
+        "total number of\\s*<b>([0-9]{2,4})</b>\\s*required achievements",
+        "required to achieve 100% completion[^<]{0,80}<b>([0-9]{2,4})"
+      ]
+    }
+  ]
+}

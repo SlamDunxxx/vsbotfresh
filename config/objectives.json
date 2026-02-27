@@ -1,0 +1,215 @@
+{
+  "objectives": [
+    {
+      "id": "p01_unlock_bestiary",
+      "name": "Unlock Bestiary Access (Ars Gouda / first enemy tracked)",
+      "category": "bestiary",
+      "prerequisites": [],
+      "unlock_signal": "bestiary_entries:1",
+      "weight": 1.0,
+      "estimated_time_s": 300
+    },
+    {
+      "id": "p01a_wiki_stage_route_bootstrap",
+      "name": "Wiki Route: Unlock at Least 2 Stages (Mad Forest -> Library path)",
+      "category": "stage",
+      "prerequisites": ["p01_unlock_bestiary"],
+      "unlock_signal": "unlocked_stages_count:2",
+      "weight": 1.05,
+      "estimated_time_s": 420
+    },
+    {
+      "id": "p01b_wiki_character_route_5",
+      "name": "Wiki Route: Expand Early Character Pool to 5",
+      "category": "character",
+      "prerequisites": ["p01a_wiki_stage_route_bootstrap"],
+      "unlock_signal": "unlocked_characters_count:5",
+      "weight": 1.08,
+      "estimated_time_s": 600
+    },
+    {
+      "id": "p01c_wiki_arcana_route_1",
+      "name": "Wiki Route: Unlock First Arcana",
+      "category": "arcana",
+      "prerequisites": ["p01b_wiki_character_route_5"],
+      "unlock_signal": "unlocked_arcanas_count:1",
+      "weight": 1.10,
+      "estimated_time_s": 900
+    },
+    {
+      "id": "p01d_wiki_passive_route_6",
+      "name": "Wiki Route: Unlock 6 Passive Items",
+      "category": "passive",
+      "prerequisites": ["p01c_wiki_arcana_route_1"],
+      "unlock_signal": "unlocked_passives_count:6",
+      "weight": 1.12,
+      "estimated_time_s": 840
+    },
+    {
+      "id": "p01e_wiki_weapon_route_130",
+      "name": "Wiki Route: Reach 130 Unlocked Weapons",
+      "category": "weapon",
+      "prerequisites": ["p01d_wiki_passive_route_6"],
+      "unlock_signal": "unlocked_weapons_count:130",
+      "weight": 1.15,
+      "estimated_time_s": 1080
+    },
+    {
+      "id": "p02_collection_10pct",
+      "name": "Reach 10% of Full Collection",
+      "category": "collection",
+      "prerequisites": ["p01e_wiki_weapon_route_130"],
+      "unlock_signal": "collection_ratio:0.10",
+      "weight": 1.1,
+      "estimated_time_s": 1200
+    },
+    {
+      "id": "p03_steam_25",
+      "name": "Unlock 25 Steam Achievements",
+      "category": "achievement",
+      "prerequisites": ["p02_collection_10pct"],
+      "unlock_signal": "steam_achievements:25",
+      "weight": 1.2,
+      "estimated_time_s": 1800
+    },
+    {
+      "id": "p04_bestiary_50",
+      "name": "Discover 50 Bestiary Entries",
+      "category": "bestiary",
+      "prerequisites": ["p03_steam_25"],
+      "unlock_signal": "bestiary_entries:50",
+      "weight": 1.3,
+      "estimated_time_s": 2400
+    },
+    {
+      "id": "p05_collection_25pct",
+      "name": "Reach 25% of Full Collection",
+      "category": "collection",
+      "prerequisites": ["p04_bestiary_50"],
+      "unlock_signal": "collection_ratio:0.25",
+      "weight": 1.6,
+      "estimated_time_s": 3600
+    },
+    {
+      "id": "p06_steam_75",
+      "name": "Unlock 75 Steam Achievements",
+      "category": "achievement",
+      "prerequisites": ["p05_collection_25pct"],
+      "unlock_signal": "steam_achievements:75",
+      "weight": 1.8,
+      "estimated_time_s": 5400
+    },
+    {
+      "id": "p07_bestiary_120",
+      "name": "Discover 120 Bestiary Entries",
+      "category": "bestiary",
+      "prerequisites": ["p06_steam_75"],
+      "unlock_signal": "bestiary_entries:120",
+      "weight": 2.0,
+      "estimated_time_s": 7200
+    },
+    {
+      "id": "p08_collection_50pct",
+      "name": "Reach 50% of Full Collection",
+      "category": "collection",
+      "prerequisites": ["p07_bestiary_120"],
+      "unlock_signal": "collection_ratio:0.50",
+      "weight": 2.2,
+      "estimated_time_s": 10800
+    },
+    {
+      "id": "p09_steam_150",
+      "name": "Unlock 150 Steam Achievements",
+      "category": "achievement",
+      "prerequisites": ["p08_collection_50pct"],
+      "unlock_signal": "steam_achievements:150",
+      "weight": 2.5,
+      "estimated_time_s": 14400
+    },
+    {
+      "id": "p10_bestiary_200",
+      "name": "Discover 200 Bestiary Entries",
+      "category": "bestiary",
+      "prerequisites": ["p09_steam_150"],
+      "unlock_signal": "bestiary_entries:200",
+      "weight": 2.8,
+      "estimated_time_s": 18000
+    },
+    {
+      "id": "p11_collection_75pct",
+      "name": "Reach 75% of Full Collection",
+      "category": "collection",
+      "prerequisites": ["p10_bestiary_200"],
+      "unlock_signal": "collection_ratio:0.75",
+      "weight": 3.1,
+      "estimated_time_s": 25200
+    },
+    {
+      "id": "p12_steam_200",
+      "name": "Unlock 200 Steam Achievements",
+      "category": "achievement",
+      "prerequisites": ["p11_collection_75pct"],
+      "unlock_signal": "steam_achievements:200",
+      "weight": 3.4,
+      "estimated_time_s": 32400
+    },
+    {
+      "id": "p13_bestiary_300",
+      "name": "Discover 300 Bestiary Entries",
+      "category": "bestiary",
+      "prerequisites": ["p12_steam_200"],
+      "unlock_signal": "bestiary_entries:300",
+      "weight": 3.8,
+      "estimated_time_s": 39600
+    },
+    {
+      "id": "p14_collection_90pct",
+      "name": "Reach 90% of Full Collection",
+      "category": "collection",
+      "prerequisites": ["p13_bestiary_300"],
+      "unlock_signal": "collection_ratio:0.90",
+      "weight": 4.2,
+      "estimated_time_s": 46800
+    },
+    {
+      "id": "p15_steam_243",
+      "name": "Unlock All Steam Achievements (243/243)",
+      "category": "achievement",
+      "prerequisites": ["p14_collection_90pct"],
+      "unlock_signal": "steam_achievements:243",
+      "weight": 4.8,
+      "estimated_time_s": 54000
+    },
+    {
+      "id": "p16_bestiary_360",
+      "name": "Complete Bestiary (360/360)",
+      "category": "bestiary",
+      "prerequisites": ["p15_steam_243"],
+      "unlock_signal": "bestiary_entries:360",
+      "weight": 5.2,
+      "estimated_time_s": 61200
+    },
+    {
+      "id": "p17_collection_100pct",
+      "name": "Complete Collection (470/470)",
+      "category": "collection",
+      "prerequisites": ["p16_bestiary_360"],
+      "unlock_signal": "collection_ratio:1.00",
+      "weight": 5.6,
+      "estimated_time_s": 72000
+    },
+    {
+      "id": "p18_full_account_completion",
+      "name": "Complete Collection + Bestiary + Steam Achievements",
+      "category": "meta",
+      "prerequisites": [
+        "p15_steam_243",
+        "p16_bestiary_360",
+        "p17_collection_100pct"
+      ],
+      "unlock_signal": "completion:full_triad",
+      "weight": 6.5,
+      "estimated_time_s": 75600
+    }
+  ]
+}

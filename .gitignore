@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+.cargo/
+.rustup/
+runtime/
+site/data/
+sim-core/target/
+policies/
+.pytest_cache/
+493

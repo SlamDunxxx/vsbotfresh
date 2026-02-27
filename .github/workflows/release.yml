@@ -1,0 +1,49 @@
+name: release
+
+on:
+  workflow_run:
+    workflows: ["ci"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  semver-release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && !contains(github.event.workflow_run.head_commit.message, '[skip release]') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Compute Next Version
+        id: semver
+        run: |
+          python scripts/release/semver_bump.py --pyproject pyproject.toml --apply --github-output "$GITHUB_OUTPUT"
+
+      - name: Create Release Commit + Tag
+        if: ${{ steps.semver.outputs.has_changes == 'true' }}
+        run: |
+          VERSION="${{ steps.semver.outputs.next_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pyproject.toml
+          git commit -m "chore(release): v${VERSION} [skip ci] [skip release]"
+          git tag "v${VERSION}"
+          git push origin HEAD:main --follow-tags
+
+      - name: Publish GitHub Release
+        if: ${{ steps.semver.outputs.has_changes == 'true' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.semver.outputs.next_version }}
+          generate_release_notes: true

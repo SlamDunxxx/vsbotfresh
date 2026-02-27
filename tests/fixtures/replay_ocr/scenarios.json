@@ -1,0 +1,114 @@
+{
+  "scenarios": [
+    {
+      "id": "start_route",
+      "steps": [
+        {
+          "ocr_text": "PRESS TO START",
+          "expected_observed": "title_screen",
+          "expected_effective": "title_screen",
+          "expected_action": "menu_title_screen_confirm_dry_run"
+        },
+        {
+          "ocr_text": "Vampire Survivors Start Power Up Collection Unlocks Options",
+          "expected_observed": "main_menu",
+          "expected_effective": "main_menu",
+          "expected_action": "menu_main_menu_start_dry_run"
+        },
+        {
+          "ocr_text": "Character Select Random",
+          "expected_observed": "character_select",
+          "expected_effective": "character_select",
+          "expected_action": "menu_character_select_imelda_1_dry_run"
+        },
+        {
+          "ocr_text": "Stage Selection",
+          "expected_observed": "stage_select",
+          "expected_effective": "stage_select",
+          "expected_action": "menu_stage_select_inlaid_library_1_dry_run"
+        },
+        {
+          "ocr_text": "00:13 gold 10 kills 29 whip level 1",
+          "expected_observed": "in_run",
+          "expected_effective": "in_run",
+          "expected_action": "none"
+        }
+      ]
+    },
+    {
+      "id": "level_up_and_return",
+      "steps": [
+        {
+          "ocr_text": "00:42 gold 52 kills 220 level 7",
+          "expected_observed": "in_run",
+          "expected_effective": "in_run",
+          "expected_action": "none"
+        },
+        {
+          "ocr_text": "LEVEL UP REROLL SKIP",
+          "expected_observed": "level_up",
+          "expected_effective": "level_up",
+          "expected_action": "menu_level_up_select_2_dry_run"
+        },
+        {
+          "ocr_text": "00:45 gold 58 kills 250 level 8",
+          "expected_observed": "in_run",
+          "expected_effective": "in_run",
+          "expected_action": "none"
+        }
+      ]
+    },
+    {
+      "id": "game_over_recovery",
+      "steps": [
+        {
+          "ocr_text": "00:12 gold 10 kills 29 whip level 1",
+          "expected_observed": "in_run",
+          "expected_effective": "in_run",
+          "expected_action": "none"
+        },
+        {
+          "ocr_text": "GAME OVER",
+          "expected_observed": "game_over",
+          "expected_effective": "game_over",
+          "expected_action": "menu_game_over_quit_confirm_dry_run"
+        },
+        {
+          "ocr_text": "Results Survived: 00:13 Gold earned Level reached Enemies defeated",
+          "expected_observed": "run_results",
+          "expected_effective": "run_results",
+          "expected_action": "menu_run_results_confirm_dry_run"
+        },
+        {
+          "ocr_text": "Vampire Survivors Start Power Up Collection Unlocks Options",
+          "expected_observed": "main_menu",
+          "expected_effective": "main_menu",
+          "expected_action": "menu_main_menu_start_dry_run"
+        }
+      ]
+    },
+    {
+      "id": "block_impossible_jump_until_confirmed",
+      "steps": [
+        {
+          "ocr_text": "Vampire Survivors Start Power Up Collection Unlocks Options",
+          "expected_observed": "main_menu",
+          "expected_effective": "main_menu",
+          "expected_action": "menu_main_menu_start_dry_run"
+        },
+        {
+          "ocr_text": "GAME OVER",
+          "expected_observed": "game_over",
+          "expected_effective": "unknown",
+          "expected_action": "none"
+        },
+        {
+          "ocr_text": "GAME OVER",
+          "expected_observed": "game_over",
+          "expected_effective": "game_over",
+          "expected_action": "menu_game_over_quit_confirm_dry_run"
+        }
+      ]
+    }
+  ]
+}

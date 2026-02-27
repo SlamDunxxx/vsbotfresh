@@ -1,0 +1,163 @@
+{
+  "templates": [
+    {
+      "id_prefix": "wiki_stage_count",
+      "name_template": "Wiki Route: Unlock {target} Stages",
+      "category": "stage",
+      "signal_key": "unlocked_stages_count",
+      "targets": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "max_gap": 2,
+      "weight": 1.0,
+      "estimated_time_s": 900,
+      "priority": 10
+    },
+    {
+      "id_prefix": "wiki_characters_count",
+      "name_template": "Wiki Route: Unlock {target} Characters",
+      "category": "character",
+      "signal_key": "unlocked_characters_count",
+      "targets": [
+        5,
+        7,
+        10,
+        14,
+        20,
+        30
+      ],
+      "max_gap": 4,
+      "weight": 1.05,
+      "estimated_time_s": 1200,
+      "priority": 20
+    },
+    {
+      "id_prefix": "wiki_arcanas_count",
+      "name_template": "Wiki Route: Unlock {target} Arcanas",
+      "category": "arcana",
+      "signal_key": "unlocked_arcanas_count",
+      "targets": [
+        1,
+        3,
+        6,
+        10,
+        15,
+        22
+      ],
+      "max_gap": 3,
+      "weight": 1.05,
+      "estimated_time_s": 1200,
+      "priority": 25
+    },
+    {
+      "id_prefix": "wiki_passives_count",
+      "name_template": "Wiki Route: Unlock {target} Passives",
+      "category": "passive",
+      "signal_key": "unlocked_passives_count",
+      "targets": [
+        6,
+        9,
+        12,
+        16,
+        20
+      ],
+      "max_gap": 5,
+      "weight": 1.08,
+      "estimated_time_s": 1200,
+      "priority": 30
+    },
+    {
+      "id_prefix": "wiki_weapons_count",
+      "name_template": "Wiki Route: Unlock {target} Weapons",
+      "category": "weapon",
+      "signal_key": "unlocked_weapons_count",
+      "targets": [
+        130,
+        140,
+        160,
+        180,
+        210,
+        240
+      ],
+      "max_gap": 20,
+      "weight": 1.1,
+      "estimated_time_s": 1500,
+      "priority": 35
+    },
+    {
+      "id_prefix": "wiki_collection_ratio",
+      "name_template": "Wiki Route: Reach {target} Collection Ratio",
+      "category": "collection",
+      "signal_key": "collection_ratio",
+      "targets": [
+        0.1,
+        0.15,
+        0.2,
+        0.25,
+        0.35,
+        0.5,
+        0.75,
+        0.9,
+        1.0
+      ],
+      "max_gap": 0.12,
+      "weight": 1.15,
+      "estimated_time_s": 1800,
+      "priority": 40
+    },
+    {
+      "id_prefix": "wiki_bestiary_count",
+      "name_template": "Wiki Route: Reach {target} Bestiary Entries",
+      "category": "bestiary",
+      "signal_key": "bestiary_entries",
+      "targets": [
+        22,
+        36,
+        50,
+        79,
+        119,
+        198,
+        299,
+        360
+      ],
+      "max_gap": 35,
+      "weight": 1.1,
+      "estimated_time_s": 1800,
+      "priority": 45
+    },
+    {
+      "id_prefix": "wiki_achievements_count",
+      "name_template": "Wiki Route: Reach {target} Steam Achievements",
+      "category": "achievement",
+      "signal_key": "steam_achievements",
+      "targets": [
+        10,
+        24,
+        49,
+        73,
+        100,
+        151,
+        199,
+        243
+      ],
+      "max_gap": 30,
+      "weight": 1.1,
+      "estimated_time_s": 1800,
+      "priority": 50
+    }
+  ],
+  "sync_meta": {
+    "last_synced_at": "2026-02-27T07:17:48.161856+00:00",
+    "totals": {
+      "collection_target": 470,
+      "bestiary_target": 360,
+      "steam_achievements_target": 243
+    },
+    "source": "vampire.survivors.wiki"
+  }
+}

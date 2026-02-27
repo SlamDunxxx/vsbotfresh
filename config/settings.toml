@@ -1,0 +1,120 @@
+[runtime]
+state_dir = "runtime"
+log_dir = "runtime/logs"
+events_file = "runtime/events/run_events.jsonl"
+database_path = "runtime/state.db"
+checkpoint_interval_seconds = 30
+max_parallel_workers = 8
+loop_sleep_seconds = 0.2
+
+[automation]
+run_forever = true
+default_mode = "unattended"
+max_candidates_per_generation = 16
+keep_top_k = 8
+batch_sim_episodes = 32
+canary_sim_episodes = 60
+canary_live_runs = 20
+required_improvement = 0.015
+max_stability_regression = 0.02
+regression_windows_before_rollback = 2
+
+[safety]
+crash_loop_limit = 6
+crash_loop_window_minutes = 30
+backoff_seconds = [5, 15, 45, 120, 300]
+allow_destructive_actions = false
+
+[live]
+enabled = true
+memory_backend = "auto"
+memory_signal_file = "runtime/live/memory_signal.json"
+memory_signal_max_age_seconds = 20
+save_data_path = "$HOME/Library/Application Support/Steam/userdata/52387123/1794680/remote/SaveData"
+progress_training_mode = true
+save_data_stale_minutes = 30
+progress_stale_pause_minutes = 2880
+
+[reporting]
+summary_dir = "runtime/summaries"
+site_dir = "site"
+site_data_dir = "site/data"
+status_file = "site/data/health.json"
+latest_summary_file = "site/data/latest_summary.json"
+
+[autotune]
+enabled = true
+mode = "enforce"
+interval_seconds = 120
+cpu_target_min = 0.70
+cpu_target_max = 0.85
+max_workers_cap = 8
+min_workers_floor = 2
+quality_guardrail_mode = "protect_quality"
+shadow_min_minutes = 60
+shadow_min_generations = 1000
+cooldown_minutes = 10
+episode_floor_batch = 8
+episode_floor_canary_sim = 30
+episode_floor_canary_live = 5
+episode_cap_batch = 128
+episode_cap_canary_sim = 200
+episode_cap_canary_live = 48
+
+[scoring]
+objective_completion_weight = 0.68
+time_to_unlock_weight = 0.20
+stability_weight = 0.12
+objective_bias_enabled = true
+objective_bias_strength = 0.85
+collection_gain_weight = 0.45
+bestiary_gain_weight = 0.30
+achievement_gain_weight = 0.25
+
+[objective_planner]
+enabled = true
+mapping_file = "config/wiki_progression.json"
+rolling_window_size = 6
+refresh_every_generations = 1
+heartbeat_log_file = "runtime/logs/objective_planner_heartbeat.log"
+heartbeat_interval_seconds = 20
+
+[wiki_sync]
+enabled = true
+interval_minutes = 180
+sources_file = "config/wiki_sources.json"
+mapping_file = "config/wiki_progression.json"
+request_timeout_seconds = 8
+
+[game_input]
+enabled = true
+app_name = "Vampire Survivors"
+watch_interval_seconds = 0.25
+pause_when_unfocused = true
+require_arm_file = true
+arm_file = "runtime/live/game_input_arm.json"
+gameplay_enabled = true
+gameplay_interval_seconds = 0.25
+gameplay_hold_seconds = 0.22
+gameplay_sequence = ["left", "up", "right", "down"]
+gameplay_confirm_enabled = false
+gameplay_confirm_interval_seconds = 2.5
+gameplay_confirm_key = "return"
+menu_detection_enabled = true
+menu_scan_interval_seconds = 2.0
+fsm_transition_confirm_seconds = 0.35
+min_save_data_age_seconds = 90
+nudge_cooldown_seconds = 300
+stuck_watchdog_enabled = true
+stuck_window_seconds = 300
+stuck_min_save_data_age_seconds = 180
+stuck_recovery_interval_seconds = 300
+max_nudges_per_session = 8
+key_delay_seconds = 0.55
+title_nudge_sequence = ["return", "return", "return", "return", "return"]
+auto_launch_when_not_running = true
+auto_launch_cooldown_seconds = 30
+auto_launch_command = ""
+objective_stale_threshold_seconds = 900
+status_file = "runtime/live/game_input_status.json"
+dry_run = false

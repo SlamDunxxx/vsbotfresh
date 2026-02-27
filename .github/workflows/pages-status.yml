@@ -1,0 +1,49 @@
+name: pages-status
+
+on:
+  workflow_run:
+    workflows: ["ci"]
+    types: [completed]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Prepare Site Data
+        run: |
+          mkdir -p site/data
+          if [ -f "runtime/live/game_input_status.json" ]; then
+            cp runtime/live/game_input_status.json site/data/game_input_status.json
+          fi
+          [ -f "site/data/health.json" ] || printf '%s\n' '{"state":"UNKNOWN","note":"no runtime snapshot in CI"}' > site/data/health.json
+          [ -f "site/data/latest_summary.json" ] || printf '%s\n' '{}' > site/data/latest_summary.json
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
