@@ -12,16 +12,28 @@ gh api \
   --method PUT \
   -H "Accept: application/vnd.github+json" \
   "/repos/${REPO}/branches/main/protection" \
-  -f required_status_checks.strict=true \
-  -f required_status_checks.contexts[]="test (py3.11)" \
-  -f required_status_checks.contexts[]="test (py3.12)" \
-  -f required_status_checks.contexts[]="test (py3.13)" \
-  -F enforce_admins=true \
-  -f required_pull_request_reviews.dismiss_stale_reviews=true \
-  -f required_pull_request_reviews.required_approving_review_count=0 \
-  -f restrictions= \
-  -f allow_force_pushes=false \
-  -f allow_deletions=false \
-  -f required_linear_history=true
+  --input - <<'JSON'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["test (py3.11)", "test (py3.12)", "test (py3.13)"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": false,
+    "required_approving_review_count": 0,
+    "require_last_push_approval": false
+  },
+  "restrictions": null,
+  "required_linear_history": true,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
+  "block_creations": false,
+  "required_conversation_resolution": false,
+  "lock_branch": false,
+  "allow_fork_syncing": true
+}
+JSON
 
 echo "applied branch protection to ${REPO}:main"
